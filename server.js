@@ -53,14 +53,12 @@ app.post("/signin", (req, res) => {
 
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
-    bcrypt.hash(password, null, null, (err, hash) => {
-        password = hash;
-    });
+    const hashedPassword = bcrypt.hashSync(password);
     database.users.push({
         id: "125",
         name: name,
         email: email,
-        password: password,
+        password: hashedPassword,
         entries: 0,
         joined: new Date()
     });
