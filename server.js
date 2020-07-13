@@ -1,5 +1,6 @@
 // @ts-nocheck
 const express = require('express');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 const PORT = 3000;
@@ -10,7 +11,7 @@ const database = {
             id: "123",
             name: "John",
             email: "john@gmail.com",
-            password: "cookies",
+            password: bcrypt.hashSync("cookies", null, null),
             entries: 0,
             joined: new Date()
         },
@@ -18,32 +19,41 @@ const database = {
             id: "124",
             name: "Sally",
             email: "sally@gmail.com",
-            password: "bananas",
+            password: bcrypt.hashSync("bananas", null, null),
             entries: 0,
             joined: new Date()
         },
+    ],
+    login: [
+        {
+            id: "987",
+            hash: "",
+            email: "john@gmail.com"
+        }
     ]
 };
 
 app.use(express.json());
 
 app.get("/", (req, res)=> {
-    //res.send("this is working");
+    //TODO: This is only for testing, don't forget to remove it.
     res.send(database.users);
 });
 
 app.post("/signin", (req, res) => {
     if (req.body.email === database.users[0].email &&
-        req.body.password === database.users[0].password) {
+        bcrypt.compareSync(req.body.password, database.users[0].password)) {
             res.json("success");
     } else {
         res.status(400).json("error logging in");
     }
-    res.json("signin");
 });
 
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
+    bcrypt.hash(password, null, null, (err, hash) => {
+        password = hash;
+    });
     database.users.push({
         id: "125",
         name: name,
