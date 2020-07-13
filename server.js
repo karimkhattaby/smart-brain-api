@@ -3,7 +3,7 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 const database = {
     users: [
