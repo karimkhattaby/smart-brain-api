@@ -3,6 +3,7 @@ const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
+const { hash } = require('bcrypt-nodejs');
 
 const app = express();
 const PORT = 3001;
@@ -65,14 +66,25 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    db("users")
-    .insert({
-        name: name,
-        email: email,
-        joined: new Date()
+    db.transaction(trx => {
+        trx.insert({
+            email: email,
+            hash: hashedPassword
+        })
+        .into("login")
+        .returning("email")
+        .then(loginEmail => trx.insert({
+                name: name,
+                email: email,
+                joined: new Date()
+            })
+            .into("users")
+            .returning('*')
+            .then(user => res.json(user[0]))
+        )
+        .then(trx.commit)
+        .catch(trx.rollback);
     })
-    .returning('*')
-    .then(user => res.json(user[0]))
     .catch(err => res.status(400).json("Unable to Register"));
 });
 
