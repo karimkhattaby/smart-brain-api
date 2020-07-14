@@ -65,7 +65,7 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    db('users')
+    db("users")
     .returning('*')
     .insert({
         name: name,
@@ -73,21 +73,14 @@ app.post("/register", (req, res) => {
         joined: new Date()
     })
     .then(user => res.json(user[0]))
-    .catch(err => res.status(400).json('unable to register'));
+    .catch(err => res.status(400).json("Unable to Register"));
 });
 
 app.get("/profile/:id", (req, res) => {
     const { id } = req.params;
-    let found = false;
-    database.users.forEach(user => {
-        if (user.id === id) {
-            found = true;
-            return res.json(user);
-        }
-    });
-    if(!found) {
-        res.status(400).json("user not found");
-    }
+    db.select('*').from("users").where({id})
+    .then(user => user.length ? res.json(user[0]) : res.status(400).json("Not Found"))
+    .catch(err => res.status(400).json("Error Getting User"));
 });
 
 app.put("/image", (req, res) => {
