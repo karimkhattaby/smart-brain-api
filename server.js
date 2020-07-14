@@ -65,15 +65,15 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
-    database.users.push({
-        id: "125",
+    db('users')
+    .returning('*')
+    .insert({
         name: name,
         email: email,
-        password: hashedPassword,
-        entries: 0,
         joined: new Date()
-    });
-    res.json(database.users[database.users.length-1]);
+    })
+    .then(user => res.json(user[0]))
+    .catch(err => res.status(400).json('unable to register'));
 });
 
 app.get("/profile/:id", (req, res) => {
