@@ -2,9 +2,20 @@
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
+const knex = require('knex');
 
 const app = express();
 const PORT = 3001;
+
+const db = knex({
+    client: "pg",
+    connection: {
+        host: "127.0.0.1",
+        user: "karimkhattaby",
+        password: "",
+        database: "smart-brain"
+    }
+});
 
 const database = {
     users: [
