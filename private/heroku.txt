@@ -1,2 +1,0 @@
-https://fatidique-fromage-93783.herokuapp.com/
-https://git.heroku.com/fatidique-fromage-93783.git
