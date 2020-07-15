@@ -3,10 +3,11 @@
 // Importing API Call Dependency
 const Clarifai = require('clarifai');
 
+// Importing API Key
+const apiKey = require('../private/apiKey');
+
 // You must add your own API key from Clarifai
-const app = new Clarifai.App({
-    apiKey: "96bfdcc1644a4151b56e04d16152ace1"
-});
+const app = new Clarifai.App({apiKey: apiKey});
 
 const handleAPICall = (req, res) => {
     app.models

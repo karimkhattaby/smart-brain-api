@@ -12,20 +12,15 @@ const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
+// Importing Database Settings
+const db_settings = require('./private/db.config');
+
 // Initializing Express Server
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Initializing Database
-const db = knex({
-    client: "pg",
-    connection: {
-        host: "127.0.0.1",
-        user: "karimkhattaby",
-        password: "",
-        database: "smart-brain"
-    }
-});
+const db = knex(db_settings);
 
 // Required Middlewares for API Functionality
 app.use(cors());
