@@ -14,7 +14,7 @@ const image = require('./controllers/image');
 
 // Initializing Express Server
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Initializing Database
 const db = knex({
@@ -46,5 +46,5 @@ app.post("/imageurl", (req, res) => { image.handleAPICall(req, res) });
 
 // Starting Server to Listen to Requests
 app.listen(PORT, () => {
-    console.log("app is running on port " + PORT);
+    console.log(`app is running on port ${PORT}`);
 });
