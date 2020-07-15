@@ -41,6 +41,8 @@ app.post("/register", (req, res) => { register.handleRegister(req, res, db, bcry
 app.get("/profile/:id", (req, res) => { profile.handleProfileGet(req, res, db) });
 // PUT Image
 app.put("/image", (req, res) => { image.handleImage(req, res, db) });
+// POST ImageURL
+app.post("/imageurl", (req, res) => { image.handleAPICall(req, res) });
 
 // Starting Server to Listen to Requests
 app.listen(PORT, () => {
