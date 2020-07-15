@@ -13,7 +13,7 @@ const profile = require('./controllers/profile');
 const image = require('./controllers/image');
 
 // Importing Database Settings
-const db_settings = require('./private/db.config');
+const { db_settings } = require('./private/db.config');
 
 // Initializing Express Server
 const app = express();
